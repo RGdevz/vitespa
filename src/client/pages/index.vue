@@ -2,6 +2,7 @@
 
  <div style="display: flex; flex-direction: column; min-height: 100%; min-width: 100%">
 
+
   <Toast />
 
   <div style="width: 100%; display:flex;">
@@ -29,7 +30,10 @@ import axios from "axios";
 export default {
 
   mounted() {
-  this.check_auth()
+
+
+
+
 
   },
 
@@ -38,15 +42,7 @@ export default {
 
   methods:{
 
-   async check_auth(){
 
-   try{
-   await axios.get('/auth/check')
-   }catch (e) {
-   client_singleton.Instance.vue.$router.replace('/auth/login')
-   }
-
-   },
 
 
 

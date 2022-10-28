@@ -11,14 +11,37 @@ import 'primeflex/primeflex.css';
 import Button from 'primevue/button';
 import InputText from 'primevue/inputtext';
 import Card from 'primevue/card';
+import {useMyStore} from './store'
 
 import index_page from './pages/index.vue'
 import Ripple from 'primevue/ripple';
 import {client_singleton} from "./client_singleton";
+import {createPinia} from "pinia";
+import axios from "axios";
+
+
+  declare module '@vue/runtime-core' {
+	 interface ComponentCustomProperties {
+		$my_store: ReturnType<typeof useMyStore>
+	 }
+  }
+
+
 
 
 
    export async function init(){
+
+
+				const pinia = createPinia()
+
+
+	 	const app = createApp(index_page).use(pinia)
+			const my_store = useMyStore()
+
+		 app.config.globalProperties.$my_store = my_store
+
+	 	try{ await axios.get('/auth/check'); my_store.login() }catch (e) {}
 
 
   	const router = createRouter({
@@ -27,7 +50,7 @@ import {client_singleton} from "./client_singleton";
 
 		 routes: [
 
-				{ path: '/',  component: () => import('./pages/hello.vue') },
+			{ path: '/',  component: () => import('./pages/hello.vue') },
 
 			{ path: '/terminal',  component: () => import('./pages/terminal.vue') },
 			{ path: '/auth/login',  component: () => import('./pages/login.vue') },
@@ -40,8 +63,28 @@ import {client_singleton} from "./client_singleton";
 
 
 
-	const app = createApp(index_page).use(router).use(PrimeVue, {ripple: true}).use(ToastService)
 
+		router.beforeEach(async(to, from, next) => {
+
+
+		if (!my_store.logged_in){
+
+		next(to.path == '/auth/login')
+		return
+
+		}
+
+		next(true)
+
+		}
+
+		)
+
+
+
+
+
+	app.use(router).use(PrimeVue, {ripple: true}).use(ToastService)
 
 
 	app.component('Dialog', Dialog);
@@ -56,6 +99,9 @@ import {client_singleton} from "./client_singleton";
 	client_singleton.Instance.vue =	app.mount('#app')
 
 
+		if (!my_store.logged_in){
+	 await 	router.push('/auth/login')
+		}
 
 
 

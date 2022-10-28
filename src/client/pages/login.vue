@@ -2,6 +2,7 @@
 
  <div style="text-align: center">
 
+
   <h4>login</h4>
 
   <form class="p-card border-round-2xl shadow-5" style="max-width: 500px; margin: auto; padding: 50px" @submit.prevent=login>
@@ -26,12 +27,21 @@ import axios, {AxiosError} from "axios";
 import {client_singleton} from "../client_singleton";
 
 
+
 export default {
+
+  data(){
+  return{
+
+  }
+  },
+
 
  methods:{
 
 
   async login(ev:Event){
+
 
   try{
 
@@ -62,6 +72,7 @@ export default {
   },
   )
 
+  this.$my_store.login()
 
   this.$router.push('/')
 

@@ -24,6 +24,7 @@
     "jiti": "^1.16.0",
     "jsonwebtoken": "^8.5.1",
     "node-pty-prebuilt-multiarch": "^0.10.1-pre.5",
+    "pinia": "^2.0.23",
     "primeflex": "^3.2.1",
     "primeicons": "^6.0.1",
     "primevue": "^3.18.0",
