@@ -72,7 +72,7 @@ export class client_singleton {
 		}
 
 		reject(error)
-	}
+ 	}
 
 
 
@@ -194,8 +194,8 @@ export class client_singleton {
 
 	 	const ismobile = matchMedia('(hover: none)').matches;
 
-	  	if (ismobile){
-		 	document.addEventListener('visibilitychange', (ev) => {
+	 	if (ismobile){
+		 document.addEventListener('visibilitychange', (ev) => {
 
 			if (document.visibilityState === 'visible'){
 	 	this.get_socket

@@ -13,7 +13,7 @@ import InputText from 'primevue/inputtext';
 import Card from 'primevue/card';
 import {useMyStore} from './store'
 
-import index_page from './pages/index.vue'
+import layout from './pages/_layout.vue'
 import Ripple from 'primevue/ripple';
 import {client_singleton} from "./client_singleton";
 import {createPinia} from "pinia";
@@ -36,7 +36,7 @@ import axios from "axios";
 				const pinia = createPinia()
 
 
-	 	const app = createApp(index_page).use(pinia)
+	 	const app = createApp(layout).use(pinia)
 			const my_store = useMyStore()
 
 		 app.config.globalProperties.$my_store = my_store
@@ -50,7 +50,7 @@ import axios from "axios";
 
 		 routes: [
 
-			{ path: '/',  component: () => import('./pages/hello.vue') },
+			{ path: '/',  component: () => import('./pages/index.vue') },
 
 			{ path: '/terminal',  component: () => import('./pages/terminal.vue') },
 			{ path: '/auth/login',  component: () => import('./pages/login.vue') },
