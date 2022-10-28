@@ -11,8 +11,6 @@
 
    <div class="py-1"/>
 
-
-
   <Button label="Login" class="p-button-raised p-button-rounded p-button-success p-button-lg" icon="pi pi-check"  type="submit">  </Button>
 
 
@@ -24,16 +22,18 @@
 </template>
 
 <script lang="ts">
-import axios from "axios";
+import axios, {AxiosError} from "axios";
+import {client_singleton} from "../client_singleton";
 
 
 export default {
 
  methods:{
+  
 
- async login(ev:Event){
+  async login(ev:Event){
 
-
+  try{
 
    const form = ev.target as HTMLFormElement;
 
@@ -43,33 +43,33 @@ export default {
   const password = form.elements.namedItem("password")?.value
 
   if (!username){
-   alert('no username')
-   return
+  throw new Error('no username')
   }
 
   if (!password){
-  alert('no password')
-  return;
+  throw new Error('no password')
   }
 
 
-  try{
 
-/*  await axios.post(`${base_path()}/auth/login`,{
+
+  await axios.post(`/auth/login`,{
 
 
   username:username,
   password:password
 
   },
-  )*/
+  )
 
 
-   this.$router.push('/')
+  this.$router.push('/')
 
-   }catch (e) {
+  }catch (e) {
 
-  alert(e.message ?? e)
+  const msg = (e as AxiosError).response?.data ?? e.message ?? e.toString()
+
+  client_singleton.Instance.err_toast(msg)
 
   }
 

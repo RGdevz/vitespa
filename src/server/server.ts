@@ -1,10 +1,10 @@
 import express, {Express} from 'express'
 import fallback from 'express-history-api-fallback'
 import * as path from "path";
-import * as http from "http";
 import {SocketServer} from "./SocketServer";
+import {checkcreds, createjwt, jwtmiddleware} from "./helpers";
 
-
+import cookieParser from 'cookie-parser'
 
 export class appInstance{
 
@@ -17,7 +17,11 @@ export class appInstance{
 
 
 
-  public async init(){
+
+   public async start(){
+
+    const root = path.resolve('dist')
+
 
    if (this.Inited) throw new Error('already inited')
 
@@ -25,8 +29,70 @@ export class appInstance{
 
    const app = express()
 
+   
 
-   await this.configure_server(app)
+   const serverMode = process.env.server_mode as 'dev'|'prod'
+
+   if (serverMode == undefined) throw new Error('no env')
+
+   console.log(`server mode ${serverMode}`)
+
+   app.use(cookieParser())
+   app.use(express.json())
+
+
+
+
+    app.post('/auth/login',async (req, res)=>{
+
+
+    const username = req.body.username
+    const password = req.body.password
+
+
+    const check= checkcreds(username,password)
+
+    if (check){
+
+    const jwt = await createjwt()
+    const Cookie_expiry = new Date();
+    Cookie_expiry.setDate(Cookie_expiry.getDate()+10e5)
+    res.cookie('secret',jwt,{httpOnly: true, path: '/', sameSite: 'strict' , expires:Cookie_expiry })
+
+    return res.send('hi')
+
+    } else {
+
+    return res.status(400).send('bad creds')
+
+    }
+    }
+    )
+
+
+
+
+
+    app.get('/auth/check',jwtmiddleware,(req, res) => {
+    return res.send('ok')
+    }
+    )
+
+
+
+
+   if (serverMode == 'dev'){
+   const vite = await this.create_vite_middleware()
+   app.use(vite)
+   } else {
+
+
+   app.use(express.static(root))
+   app.use(fallback('index.html', { root }))
+
+   }
+
+
 
 
 
@@ -50,45 +116,28 @@ export class appInstance{
 
 
 
-    private async configure_server(app:Express){
-    const serverMode = process.env.server_mode as 'dev'|'prod'
 
+    private async create_vite_middleware(){
 
-    if (serverMode == undefined) throw new Error('no env')
-
-
-     console.log(`server mode ${serverMode}`)
-
-     if (serverMode == 'dev'){
-     const vite = await require('vite').createServer({
-     root: path.resolve(''),
-     logLevel:'info',
-     server: {
-     middlewareMode: true,
-     watch: {
-     usePolling: true,
-     interval: 100
-     }
-     }
-     }
-     )
-
-
-
-     app.use(vite.middlewares)
-
-
-
-    } else {
-
-
-     const root = path.resolve('dist')
-     app.use(express.static(root))
-     app.use(fallback('index.html', { root }))
-
-
+    const vite = await require('vite').createServer({
+    root: path.resolve(''),
+    logLevel:'info',
+    server: {
+    middlewareMode: true,
+    watch: {
+    usePolling: true,
+    interval: 300
     }
     }
+    }
+    )
+
+    return vite.middlewares
+
+    }
+
+
+
 
 
 
@@ -97,13 +146,7 @@ export class appInstance{
 
  public static get Instance()
  {
-
- if (!this._instance){
- this._instance = new this()
-
- }
-
- return this._instance
+ return this._instance || (this._instance = new this())
  }
 
 

@@ -49,15 +49,17 @@
 import 'xterm/css/xterm.css';
 import type {ITerminalAddon, Terminal} from 'xterm'
 
-//@ts-ignore
+
 import { WebglAddon }  from 'xterm-addon-webgl'
+import {client_singleton} from "../client_singleton";
 
 export default {
+
 
   data(){
   return{
   xterm:null as Terminal,
-   addon:null as ITerminalAddon
+  addon:null as ITerminalAddon
 
   }
   },
@@ -82,8 +84,6 @@ export default {
 
    this.dispose()
 
-   /* await client_singleton.Instance.socket_send('SendMessage',"cool")*/
-
    await this.create_term()
 
    }
@@ -107,46 +107,38 @@ export default {
 
    },
 
-   toast(){
-
-   this.$toast.add({severity:'success', summary: 'Success Message', detail:'Message Content', life: 3000});
-   },
 
 
 
 
     listen(){
 
-/*
-     client_singleton.Instance.mitter.off('shell_session')
 
-     client_singleton.Instance.mitter.on('shell_session',(data:string)=>{
-  /!*  console.log(data)*!/
+     client_singleton.Instance.unsubscribeEmitter('send_pty_data')
+     client_singleton.Instance.subscribeEmitter('send_pty_data',(data)=>{
+     this.xterm?.write(data)
+     }
+     )
 
-    this.xterm?.write(data)
 
-
-    }
-    )*/
-
-    },
+     },
 
 
 
 
 
-    create_term(){
+     create_term(){
 
-    return new Promise(async resolve => {
+     return new Promise(async resolve => {
 
      const load = await import('xterm')
 
 
 
-     if (this.xterm) return
+      if (this.xterm) return
 
 
-     this.xterm = new load.Terminal({
+      this.xterm = new load.Terminal({
 
        allowProposedApi:true,
 
@@ -181,7 +173,7 @@ export default {
 
 
 
-     const el = document.getElementById('terminal')
+      const el = document.getElementById('terminal')
 
       this.xterm.open(el);
 
@@ -197,13 +189,16 @@ export default {
 
 
 
-     this.xterm.onData(async data=>{
+      this.xterm.onData(async data=>{
 
-   /*  await client_singleton.Instance.socket_send('send_pty', data)*/
+      try{
+      await client_singleton.Instance.sendrequest('send_pty', data)
+      }catch (e) {
+      client_singleton.Instance.err_toast(e.message ?? e.toString())
+      }
 
       }
       )
-
 
 
      this.xterm.focus()
@@ -225,6 +220,8 @@ export default {
 
 
     }
+
+
 </script>
 
 <style scoped>

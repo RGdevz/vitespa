@@ -13,9 +13,11 @@ import InputText from 'primevue/inputtext';
 
 import index_page from './pages/index.vue'
 import Ripple from 'primevue/ripple';
+import {client_singleton} from "./client_singleton";
 
 
-  export async function init(){
+
+   export async function init(){
 
 
   	const router = createRouter({
@@ -47,7 +49,7 @@ import Ripple from 'primevue/ripple';
 	app.component('InputText', InputText);
 	app.directive('ripple', Ripple);
 
-	app.mount('#app')
+	client_singleton.Instance.vue =	app.mount('#app')
 
 
 

@@ -4,7 +4,7 @@
 
   <Toast />
 
-  <div style="cursor: pointer" @click="test">login</div>
+  <div style="cursor: pointer" @click="login">login</div>
 
   <router-view > </router-view>
 
@@ -19,14 +19,12 @@
 
 
 import {client_singleton} from "../client_singleton";
+import axios from "axios";
 
 export default {
 
- mounted() {
-
-
-
-
+  mounted() {
+  this.check_auth()
 
   },
 
@@ -35,15 +33,23 @@ export default {
 
   methods:{
 
+   async check_auth(){
 
-  test(){
-
-
-
-   client_singleton.Instance.get_socket().emit('wow',(msg)=>{
-   this.$toast.add({severity:'success', summary: 'Success Message', detail:msg, life: 3000});
+   try{
+   await axios.get('/auth/check')
+   }catch (e) {
+   client_singleton.Instance.vue.$router.replace('/auth/login')
    }
-   )
+
+   },
+
+
+
+   login(){
+
+
+  client_singleton.Instance.vue.$router.push('/auth/login')
+
 
   }
 
