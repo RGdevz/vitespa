@@ -29,7 +29,7 @@ import {client_singleton} from "../client_singleton";
 export default {
 
  methods:{
-  
+
 
   async login(ev:Event){
 

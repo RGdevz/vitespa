@@ -26,22 +26,22 @@ type default_route_server<T> = (args:T, callback: (socket_response: socket_respo
 
 
 
-export interface Server_Functions {
+ export interface Server_Functions {
 
 	send_pty:default_route_server<string>
 	pty_update(data:string)
 
-}
+ }
 
 
 
 
 
-export interface ServerToClient {
+ export interface ServerToClient {
 
-send_pty:default_route_client<string>
+ send_pty:default_route_client<string>
 	pty_update(data:string)
-}
+ }
 
 
 
@@ -62,8 +62,7 @@ io:Server<Server_Functions,ServerToClient>
 
 
 
-
- 	    private init(){
+ 	  private init(){
 
 
 

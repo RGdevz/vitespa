@@ -4,7 +4,12 @@
 
   <Toast />
 
-  <div style="cursor: pointer" @click="login">login</div>
+  <div style="width: 100%; display:flex;">
+   <div  style="cursor: pointer; margin-left: 25px " @click="$router.push('/')">home</div>
+
+  <div  style="cursor: pointer; margin-left: 25px" @click="login">login</div>
+
+  </div>
 
   <router-view > </router-view>
 
