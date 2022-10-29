@@ -54,6 +54,7 @@ import axios from "axios";
 
 			{ path: '/terminal',  component: () => import('./pages/terminal.vue') },
 			{ path: '/auth/login',  component: () => import('./pages/login.vue') },
+				{ path: '/ari',  component: () => import('./pages/ari.vue') },
 
 
 	 	],

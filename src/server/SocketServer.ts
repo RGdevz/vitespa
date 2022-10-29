@@ -70,35 +70,35 @@ io:Server<Server_Functions,ServerToClient>
 
 
 
-						const cookies = socket.client.request.headers.cookie
+			const cookies = socket.client.request.headers.cookie
 
-						if (!cookies){
-						next(new Error("invalid token"));
-						return
-						}
+			if (!cookies){
+			next(new Error("invalid token"));
+			return
+			}
 
-						const jwt = cookie.parse(cookies)?.secret
+			const jwt = cookie.parse(cookies)?.secret
 
-						if (!jwt){
-						next(new Error("invalid token"));
-						return
-						}
+			if (!jwt){
+			next(new Error("invalid token"));
+			return
+			}
 
-						try {
-						const	check = await CheckJwtServer(jwt)
+			try {
+			const	check = await CheckJwtServer(jwt)
 
-				 	if (check) {
-						next();
-				 	}
+			if (check) {
+			next();
+			}
 
-						}catch (e) {
+			}catch (e) {
 
-						next(new Error("invalid token"));
-						return
-						}
+			next(new Error("invalid token"));
+			return
+			}
 
-				 	}
-					 );
+			}
+		 );
 
 
 

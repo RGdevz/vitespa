@@ -12,8 +12,8 @@
    <h4>Terminal</h4>
    </div>
 
-   <div class="p-card border-round shadow-5 col-6" style="max-width: 450px; padding: 60px; margin-right: 25px">
-    <h4>Card</h4>
+   <div @click="$router.push('/ari')" class="p-card border-round shadow-5 col-6" style="max-width: 450px; padding: 60px; margin-right: 25px; cursor: pointer">
+    <h4>Ari</h4>
    </div>
 
 
