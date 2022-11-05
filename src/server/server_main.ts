@@ -6,11 +6,18 @@ import {checkcreds, createjwt, jwtmiddleware} from "./helpers";
 
 import cookieParser from 'cookie-parser'
 
+import {DatabaseSql} from "./DatabaseSql";
+
+
 export class appInstance{
 
 
 
  private static _instance: appInstance;
+
+
+
+ public DataBase:DatabaseSql
 
  private Inited :boolean
 
@@ -20,7 +27,14 @@ export class appInstance{
 
    public async start(){
 
-    const root = path.resolve('dist')
+   process.on('unhandledRejection', up => { console.error(up) })
+
+    this.DataBase =await new DatabaseSql().init()
+
+
+
+
+   const root = path.resolve('dist')
 
 
    if (this.Inited) throw new Error('already inited')
@@ -39,6 +53,15 @@ export class appInstance{
 
    app.use(cookieParser())
    app.use(express.json())
+
+    app.use((req, res, next) => {
+
+    res.header('cache-control','no-cache')
+
+    next()
+
+    }
+    )
 
 
 
@@ -106,6 +129,8 @@ export class appInstance{
 
 
    SocketServer.StartServer(server)
+
+
 
    }
 

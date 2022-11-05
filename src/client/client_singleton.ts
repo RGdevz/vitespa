@@ -5,7 +5,7 @@ import {Server} from "socket.io";
 import {Server_Functions, ServerToClient} from "../server/SocketServer";
 
 
-interface mitter_types {
+interface emitter_types {
 
 send_pty_data:(data:string)=>void
 
@@ -23,19 +23,19 @@ export class client_singleton {
 
 	private socket :Socket<Server_Functions,ServerToClient>
 
-	public mitter = new EventEmitter()
+ private mitter = new EventEmitter()
 
 	public vue: ComponentPublicInstance
 
 
-	public subscribeEmitter<key extends keyof mitter_types>(thekey:key,cb:(any)=>void){
+	public subscribeEmitter<key extends keyof emitter_types>(thekey:key, cb:(any)=>void){
 
 	this.mitter.on(thekey,cb)
 
 	}
 
 
-	public unsubscribeEmitter<key extends keyof mitter_types>(thekey:key){
+	public unsubscribeEmitter<key extends keyof emitter_types>(thekey:key){
 
 	this.mitter.off(thekey)
 
@@ -43,7 +43,7 @@ export class client_singleton {
 
 
 
-	public useEmitter<key extends keyof mitter_types>(thekey:key,...args){
+	public useEmitter<key extends keyof emitter_types>(thekey:key, ...args){
 
 	this.mitter.emit(thekey,...args)
 
@@ -173,11 +173,19 @@ export class client_singleton {
   public 	disconnect(){
 
  		setTimeout(()=>{
+			
+			try {
 			this.socket?.disconnect()
-			this.socket = null
+			}catch (e) {
+				
+			}
+				this.socket = null
+				
 		 },100)
 
 	  }
+
+
 
 
 
@@ -189,7 +197,6 @@ export class client_singleton {
 	 	this.disconnect()
 		 }
 		 );
-
 
 
 	 	const ismobile = matchMedia('(hover: none)').matches;

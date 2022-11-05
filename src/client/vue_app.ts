@@ -12,12 +12,17 @@ import Button from 'primevue/button';
 import InputText from 'primevue/inputtext';
 import Card from 'primevue/card';
 import {useMyStore} from './store'
+import DataTable from 'primevue/DataTable'
 
-import layout from './pages/_layout.vue'
+import layout from './pages/__layout__.vue'
 import Ripple from 'primevue/ripple';
 import {client_singleton} from "./client_singleton";
 import {createPinia} from "pinia";
 import axios from "axios";
+import Column from "primevue/column";
+
+// @ts-ignore
+import {default as generatedRoutes} from '../../tools/generated_routes'
 
 
   declare module '@vue/runtime-core' {
@@ -30,7 +35,7 @@ import axios from "axios";
 
 
 
-   export async function init(){
+   export async function client_init(){
 
 
 				const pinia = createPinia()
@@ -41,25 +46,19 @@ import axios from "axios";
 
 		 app.config.globalProperties.$my_store = my_store
 
-	 	try{ await axios.get('/auth/check'); my_store.login() }catch (e) {}
+	 	try{
+			await axios.get('/auth/check');
+			my_store.login()
+			}catch (e) {
+		 console.log('not logged in')
+			}
 
 
   	const router = createRouter({
 	 	history: createWebHistory(),
-
-
-		 routes: [
-
-			{ path: '/',  component: () => import('./pages/index.vue') },
-
-			{ path: '/terminal',  component: () => import('./pages/terminal.vue') },
-			{ path: '/auth/login',  component: () => import('./pages/login.vue') },
-				{ path: '/ari',  component: () => import('./pages/ari.vue') },
-
-
-	 	],
-  	}
-  	)
+		 routes: generatedRoutes
+			}
+			)
 
 
 
@@ -69,12 +68,10 @@ import axios from "axios";
 
 
 		if (!my_store.logged_in){
-
 		next(to.path == '/auth/login')
 		return
 
 		}
-
 		next(true)
 
 		}
@@ -87,6 +84,8 @@ import axios from "axios";
 
 	app.use(router).use(PrimeVue, {ripple: true}).use(ToastService)
 
+ app.component('DataTable',DataTable)
+ app.component('Column',Column)
 
 	app.component('Dialog', Dialog);
 	app.component('Toast', Toast);

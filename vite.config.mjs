@@ -12,6 +12,13 @@ export default  {
   /*  viteCommonjs()*/
  ],
  resolve: { alias: { 'vue': 'vue/dist/vue.esm-bundler.js' }},
+
+  optimizeDeps: {
+  exclude: [
+ 'node-pty-prebuilt-multiarch',
+  ],
+  },
+
  build: {
 
 

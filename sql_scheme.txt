@@ -1,0 +1,6 @@
+CREATE TABLE IF NOT EXISTS calls_history (
+    id               INTEGER      PRIMARY KEY AUTOINCREMENT,
+    caller_number    VARCHAR (50),
+    destination      VARCHAR (50),
+    duration_seconds INTEGER
+);

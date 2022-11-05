@@ -3,9 +3,10 @@
  <div style="text-align: center">
 
 
-  <h4>login</h4>
+<!--  <h4 >login</h4>-->
 
-  <form class="p-card border-round-2xl shadow-5" style="max-width: 500px; margin: auto; padding: 50px" @submit.prevent=login>
+  <div style="max-width: 500px; margin: auto;">
+  <form class="p-card border-round-2xl shadow-5" style="padding: 50px"  @submit.prevent=login>
   <InputText class="p-inputtext-lg" type="text" name="username" placeholder="username"/>
   <div class="py-1"/>
   <InputText class="p-inputtext-lg" type="text" name="password" placeholder="password"/>
@@ -18,13 +19,15 @@
 
   </form>
 
+  </div>
+
  </div>
 
 </template>
 
 <script lang="ts">
 import axios, {AxiosError} from "axios";
-import {client_singleton} from "../client_singleton";
+import {client_singleton} from "../../client_singleton";
 
 
 

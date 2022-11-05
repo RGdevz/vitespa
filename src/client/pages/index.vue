@@ -1,24 +1,24 @@
 <template>
 
- <div style="text-align:center">
+ <div style="text-align:center;">
 
-<h4 >hi</h4>
-
-
-  <div class="grid  justify-content-center" >
+<h4 class="text-xl" >App</h4>
 
 
-   <div @click="$router.push('/terminal')" class="p-card border-round shadow-5 col-6" style="max-width: 450px; padding: 60px; margin-right: 25px; cursor: pointer">
+  <div class="mygrid" >
+
+
+   <div @click="$router.push('/terminal')" class="p-card border-round shadow-3 " style="display: flex;max-width: 450px; height: 300px; width: 300px;cursor: pointer">
+  <div style="margin: auto">
    <h4>Terminal</h4>
-   </div>
-
-   <div @click="$router.push('/ari')" class="p-card border-round shadow-5 col-6" style="max-width: 450px; padding: 60px; margin-right: 25px; cursor: pointer">
-    <h4>Ari</h4>
+  </div>
    </div>
 
 
-   <div class="p-card border-round shadow-5 col-6" style="max-width: 450px; padding: 60px; margin-right: 25px">
+   <div @click="$router.push('/tests')" class="p-card border-round shadow-3 " style="max-width: 450px;height: 300px; width: 300px;cursor: pointer; display: flex">
+    <div style="margin: auto">
     <h4>Card</h4>
+    </div>
    </div>
 
 
@@ -43,7 +43,6 @@
 </style>
 
 <script lang="ts">
-
 
 
 export default {

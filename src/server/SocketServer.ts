@@ -3,6 +3,8 @@ import * as http from "http";
 import {Server} from "socket.io";
 import {NodePty} from "./NodePty";
 import {CheckJwtServer} from "./helpers";
+import {appInstance} from "./server_main";
+
 const cookie = require("cookie");
 
 export class socket_response {
@@ -29,6 +31,7 @@ type default_route_server<T> = (args:T, callback: (socket_response: socket_respo
  export interface Server_Functions {
 
 	send_pty:default_route_server<string>
+		get_calls_history:default_route_server<never>
 	pty_update(data:string)
 
  }
@@ -38,7 +41,7 @@ type default_route_server<T> = (args:T, callback: (socket_response: socket_respo
 
 
  export interface ServerToClient {
-
+	get_calls_history:default_route_client<never>
  send_pty:default_route_client<string>
 	pty_update(data:string)
  }
@@ -66,7 +69,7 @@ io:Server<Server_Functions,ServerToClient>
 
 
 
-		 	this.io.use(async (socket, next) => {
+	 	this.io.use(async (socket, next) => {
 
 
 
@@ -103,7 +106,31 @@ io:Server<Server_Functions,ServerToClient>
 
 
 
-		 this.io.on('connection',(socket)=>{
+
+		  this.io.on('connection',(socket)=>{
+
+
+					socket.on('get_calls_history',(never,call)=>{
+
+						try{
+
+						const list = appInstance.Instance.DataBase.get_call_history()
+
+
+						call(new socket_response(list,undefined))
+
+						}catch (e){
+					console.error(e)
+					call(new socket_response(undefined,e.message ?? e.toString()))
+					}
+
+					}
+					)
+
+
+
+
+
 
 
 		 socket.on('send_pty',(cmd,callback)=>{
@@ -115,6 +142,8 @@ io:Server<Server_Functions,ServerToClient>
 	 	callback(new socket_response('ok',undefined))
 
 			}catch (e) {
+
+			callback(new socket_response(undefined,e.toString()))
 
 			}
 
