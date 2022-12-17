@@ -1,5 +1,5 @@
 import express, {Express} from 'express'
-import fallback from 'express-history-api-fallback'
+const fallback = require('connect-history-api-fallback');
 import * as path from "path";
 import {SocketServer} from "./SocketServer";
 import {checkcreds, createjwt, jwtmiddleware} from "./helpers";
@@ -19,8 +19,6 @@ export class appInstance{
 
  public DataBase:DatabaseSql
 
- private Inited :boolean
-
 
 
 
@@ -37,9 +35,7 @@ export class appInstance{
    const root = path.resolve('dist')
 
 
-   if (this.Inited) throw new Error('already inited')
 
-   this.Inited = true
 
    const app = express()
 
@@ -110,8 +106,9 @@ export class appInstance{
    } else {
 
 
-   app.use(express.static(root))
-   app.use(fallback('index.html', { root }))
+    /*app.use(express.static(root))*/
+    app.use(fallback())
+    app.use(express.static(root))
 
    }
 

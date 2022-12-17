@@ -190,7 +190,7 @@ export default {
       this.xterm.onData(async data=>{
 
       try{
-      await client_singleton.Instance.sendrequest('send_pty', data)
+      await client_singleton.Instance.send_request('send_pty', data)
       }catch (e) {
       client_singleton.Instance.err_toast(e.message ?? e.toString())
       }

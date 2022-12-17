@@ -6,15 +6,20 @@ html{
 
 }
 
+.p-sidebar .p-sidebar-header {
+    padding: 0.5rem !important;
+}
 
 body {
+
+    -webkit-tap-highlight-color: transparent;
 
    height:  100%;
 
 
     width: 100%;
     margin:0;
-
+/*    background-color: #eff3f8;*/
     background-color: #EEEEEE;
 
 
@@ -32,8 +37,16 @@ body {
 }
 
 
+
+
 a{
-    color: #2f2f2f;
+    text-decoration: none;
+
+}
+
+
+.router-link-active{
+background: #F5F5F5;
 }
 
 

@@ -64,7 +64,7 @@ export class client_singleton {
 
 
 
- 	private  senderror(error:string, reject:any){
+ 	private  send_error(error:string, reject:any){
 
 
 		if (typeof error != 'string'){
@@ -80,37 +80,37 @@ export class client_singleton {
 
 
 
-  public	sendrequest<name extends keyof ServerToClient>(route:name,args:FirstArgument<ServerToClient[name]> = Object()) :Promise<unknown> {
+  public	send_request<name extends keyof ServerToClient>(route:name, args:FirstArgument<ServerToClient[name]> = Object()) :Promise<unknown> {
 
 
 
 	  	return  new Promise((resolve, reject) => {
 
-		 	if (!this.get_socket?.active){
+		 	if (!this.get_socket()?.active){
 				reject('socket error')
 				return
 		 	}
 
 
 
-			this.get_socket.timeout(10000).emit(route,args,(timeouterr,data)=>{
+			this.get_socket().timeout(10000).emit(route,args,(timeouterr,data)=>{
 
 
 
 				if (timeouterr){
-		 	this.senderror(timeouterr.message,reject)
+		 	this.send_error(timeouterr.message,reject)
 				return
 				}
 
 
 				if (!data){
-				this.senderror('no data returned',reject)
+				this.send_error('no data returned',reject)
 		 	return;
 				}
 
 				if (data.the_error){
 
-			 this.senderror(data.the_error,reject)
+			 this.send_error(data.the_error,reject)
 				return
 
 				}
@@ -133,7 +133,7 @@ export class client_singleton {
 
 
 
-	private get get_socket():Socket{
+	private get_socket():Socket{
 
 	if (this.socket) return this.socket
 
@@ -205,7 +205,7 @@ export class client_singleton {
 		 document.addEventListener('visibilitychange', (ev) => {
 
 			if (document.visibilityState === 'visible'){
-	 	this.get_socket
+	 	this.get_socket()
 			} else {
 		 this.disconnect()
 		 }

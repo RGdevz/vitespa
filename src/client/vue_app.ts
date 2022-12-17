@@ -13,13 +13,16 @@ import InputText from 'primevue/inputtext';
 import Card from 'primevue/card';
 import {useMyStore} from './store'
 import DataTable from 'primevue/DataTable'
-
+import error_page from './pages/__refresh_needed__.vue'
+import page_404 from './pages/__404__.vue'
 import layout from './pages/__layout__.vue'
 import Ripple from 'primevue/ripple';
 import {client_singleton} from "./client_singleton";
+import VueScreen from 'vue-screen'
 import {createPinia} from "pinia";
 import axios from "axios";
 import Column from "primevue/column";
+import Sidebar from 'primevue/sidebar';
 
 // @ts-ignore
 import {default as generatedRoutes} from '../../tools/generated_routes'
@@ -54,9 +57,35 @@ import {default as generatedRoutes} from '../../tools/generated_routes'
 			}
 
 
+
+
+				const final_routes =	generatedRoutes.map(x=>{
+
+
+
+				const wrap = ()=> x.component().catch((e)=>{
+			 console.log(e)
+				return error_page
+				}
+				)
+
+
+				return{
+
+				path:x.path,name:x.name,component:wrap
+
+				}
+				}
+				)
+
+
+				//@ts-ignore
+				final_routes.push({ path: '/:pathMatch(.*)*', name: 'NotFound', component: page_404 })
+
+
   	const router = createRouter({
 	 	history: createWebHistory(),
-		 routes: generatedRoutes
+		 routes: final_routes
 			}
 			)
 
@@ -82,7 +111,15 @@ import {default as generatedRoutes} from '../../tools/generated_routes'
 
 
 
-	app.use(router).use(PrimeVue, {ripple: true}).use(ToastService)
+	 app.use(router).use(PrimeVue, {ripple: true}).use(ToastService).use(VueScreen, {
+		grid: {
+			sm: 340,
+			md: 768,
+			lg: 1024,
+		}
+	 }
+ 	)
+
 
  app.component('DataTable',DataTable)
  app.component('Column',Column)
@@ -92,7 +129,7 @@ import {default as generatedRoutes} from '../../tools/generated_routes'
 	app.component('Button', Button);
 	app.component('InputText', InputText);
 	app.component('Card',Card)
-
+				app.component('Sidebar',Sidebar)
 	app.directive('ripple', Ripple);
 
 

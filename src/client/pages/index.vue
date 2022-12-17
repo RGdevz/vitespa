@@ -47,8 +47,8 @@
 
 export default {
 
-
-
+mounted() {
+}
 
 
 }
