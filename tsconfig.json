@@ -4,7 +4,7 @@
     "esModuleInterop": true,
     "target": "esnext",
     "strictFunctionTypes": true,
-    "outDir": "dist",
+    "outDir": "server_dist",
     "strict": false,
     "moduleResolution": "node"
 

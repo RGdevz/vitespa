@@ -2,11 +2,14 @@
   "name": "clientapp",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "type": "commonjs",
+  "main": "start_electron.js",
   "scripts": {
     "dev": "cross-env server_mode=dev node start.js",
     "start": "cross-env server_mode=prod node start.js",
-    "build": "node tools/build.js"
+    "build": "node tools/build.js",
+    "electron": " electron start_electron.js --unhandled-rejections=strict",
+    "electron-build": "electron-builder"
   },
   "author": "",
   "license": "ISC",
@@ -15,14 +18,15 @@
     "@types/jsonwebtoken": "^8.5.9",
     "@types/node": "^18.11.5",
     "axios": "^0.27.2",
-    "better-sqlite3": "^7.6.2",
     "connect-history-api-fallback": "^2.0.0",
     "cookie": "^0.5.0",
     "cookie-parser": "^1.4.6",
     "cross-env": "^7.0.3",
     "dayjs": "^1.11.6",
     "eventemitter3": "^4.0.7",
+    "exit-hook": "^3.1.4",
     "express": "^4.18.2",
+    "fs-extra": "^11.1.0",
     "jiti": "^1.16.0",
     "jsonwebtoken": "^8.5.1",
     "node-pty-prebuilt-multiarch": "^0.10.1-pre.5",
@@ -32,6 +36,7 @@
     "primevue": "^3.18.0",
     "socket.io": "^4.5.3",
     "socket.io-client": "^4.5.3",
+    "threads": "^1.7.0",
     "typescript": "^4.8.3",
     "vite": "^3.1.3",
     "vue": "^3.2.39",
@@ -42,8 +47,17 @@
     "xterm-addon-webgl": "^0.13.0"
   },
   "devDependencies": {
-    "@types/better-sqlite3": "^7.6.2",
     "@types/cookie-parser": "^1.4.3",
-    "@vitejs/plugin-vue": "^3.1.0"
+    "@types/fs-extra": "^9.0.13",
+    "@vitejs/plugin-vue": "^3.1.0",
+    "electron": "^22.0.0",
+    "electron-builder": "^23.6.0",
+    "electron-rebuild": "^3.2.9"
+  },
+  "build": {
+    "appId": "com.example.app",
+    "directories": {
+      "output": "electron-dist"
+    }
   }
 }

@@ -4,9 +4,11 @@ import * as path from "path";
 import {SocketServer} from "./SocketServer";
 import {checkcreds, createjwt, jwtmiddleware} from "./helpers";
 
+
 import cookieParser from 'cookie-parser'
 
-import {DatabaseSql} from "./DatabaseSql";
+
+import * as fs from "fs-extra";
 
 
 export class appInstance{
@@ -17,17 +19,15 @@ export class appInstance{
 
 
 
- public DataBase:DatabaseSql
 
 
 
 
 
-   public async start(){
 
-   process.on('unhandledRejection', up => { console.error(up) })
+   public async start(on_done?:()=>void){
 
-    this.DataBase =await new DatabaseSql().init()
+/*   process.on('unhandledRejection', up => { console.error(up) })*/
 
 
 
@@ -106,6 +106,13 @@ export class appInstance{
    } else {
 
 
+
+    const check = await fs.pathExists(path.resolve('dist'))
+
+    if (!check) {
+     throw new Error('please run build first')
+
+    }
     /*app.use(express.static(root))*/
     app.use(fallback())
     app.use(express.static(root))
@@ -120,12 +127,19 @@ export class appInstance{
 
    server.on('listening',()=>{
    console.log(`http://localhost:5000`)
+
+    SocketServer.StartServer(server)
+
+   if (on_done){
+   on_done()
+   }
+
    }
    )
 
 
 
-   SocketServer.StartServer(server)
+
 
 
 
@@ -140,6 +154,8 @@ export class appInstance{
 
 
     private async create_vite_middleware(){
+
+
 
     const vite = await require('vite').createServer({
     root: path.resolve(''),

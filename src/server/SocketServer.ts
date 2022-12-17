@@ -66,8 +66,7 @@ io:Server<Server_Functions,ServerToClient>
 
 
  	  private init(){
-
-
+		
 
 	 	this.io.use(async (socket, next) => {
 
@@ -114,7 +113,7 @@ io:Server<Server_Functions,ServerToClient>
 
 						try{
 
-						const list = appInstance.Instance.DataBase.get_call_history()
+						const list = []
 
 
 						call(new socket_response(list,undefined))
