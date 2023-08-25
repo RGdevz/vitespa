@@ -1,11 +1,6 @@
 function index() {
   return import(/* webpackChunkName: "index" */ '../src/client/pages/index.vue')
 }
-function terminal() {
-  return import(
-    /* webpackChunkName: "terminal" */ '../src/client/pages/terminal.vue'
-  )
-}
 function tests() {
   return import(/* webpackChunkName: "tests" */ '../src/client/pages/tests.vue')
 }
@@ -20,11 +15,6 @@ export default [
     name: 'index',
     path: '/',
     component: index,
-  },
-  {
-    name: 'terminal',
-    path: '/terminal',
-    component: terminal,
   },
   {
     name: 'tests',

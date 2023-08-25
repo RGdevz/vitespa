@@ -15,7 +15,7 @@ import {useMyStore} from './store'
 import DataTable from 'primevue/DataTable'
 import error_page from './pages/__refresh_needed__.vue'
 import page_404 from './pages/__404__.vue'
-import layout from './pages/__layout__.vue'
+import root from './pages/__root__.vue'
 import Ripple from 'primevue/ripple';
 import {client_singleton} from "./client_singleton";
 import VueScreen from 'vue-screen'
@@ -38,108 +38,134 @@ import {default as generatedRoutes} from '../../tools/generated_routes'
 
 
 
-   export async function client_init(){
-
-
-				const pinia = createPinia()
-
-
-	 	const app = createApp(layout).use(pinia)
-			const my_store = useMyStore()
-
-		 app.config.globalProperties.$my_store = my_store
-
-	 	try{
-			await axios.get('/auth/check');
-			my_store.login()
-			}catch (e) {
-		 console.log('not logged in')
-			}
-
-
-
-
-				const final_routes =	generatedRoutes.map(x=>{
+	  	function useRoutes(){
+		 	const final_routes =	generatedRoutes.map(x=>{
 
 
 
 				const wrap = ()=> x.component().catch((e)=>{
-			 console.log(e)
-				return error_page
+					console.log(e)
+					return error_page
 				}
 				)
 
 
 				return{
 
-				path:x.path,name:x.name,component:wrap
+					path:x.path,name:x.name,component:wrap
 
-				}
-				}
-				)
-
-
-				//@ts-ignore
-				final_routes.push({ path: '/:pathMatch(.*)*', name: 'NotFound', component: page_404 })
+	 			}
+		  	}
+		  	)
 
 
-  	const router = createRouter({
-	 	history: createWebHistory(),
-		 routes: final_routes
+			//@ts-ignore
+			final_routes.push({ path: '/:pathMatch(.*)*', name: 'NotFound', component: page_404 })
+			return final_routes
+		 }
+
+
+
+
+
+
+
+			async function createVueApp(onCreate:(app:ReturnType<typeof createApp>)=>Promise<void> | void){
+
+				const app = createApp(root)
+				await onCreate?.(app)
+
+				client_singleton.Instance['vue'] =	app.mount('#app')
+
+			}
+
+
+
+
+
+
+   export async function client_init(){
+
+
+	  await createVueApp(async app=>{
+
+
+			const pinia = createPinia()
+
+			app.use(pinia)
+
+			const my_store = useMyStore()
+
+			app.config.globalProperties.$my_store = my_store
+
+			try{
+			await axios.get('/auth/check');
+			my_store.login()
+			}catch (e) {
+			console.log('not logged in')
+			}
+
+
+
+			const router = createRouter({
+				history: createWebHistory(),
+				routes: useRoutes()
 			}
 			)
 
 
 
 
+			router.beforeEach(async(to, from, next) => {
 
-		router.beforeEach(async(to, from, next) => {
 
+				/*		if (!my_store.logged_in){
+				next(to.path == '/auth/login')
+			return
+				}*/
 
-		if (!my_store.logged_in){
-		next(to.path == '/auth/login')
-		return
+				next(true)
 
-		}
-		next(true)
+			}
 
-		}
-
-		)
-
+			)
 
 
 
 
-	 app.use(router).use(PrimeVue, {ripple: true}).use(ToastService).use(VueScreen, {
-		grid: {
-			sm: 340,
-			md: 768,
-			lg: 1024,
-		}
-	 }
- 	)
+
+	 		app.use(router).use(PrimeVue, {ripple: true}).use(ToastService).use(VueScreen, {
+				grid: {
+		 	sm: 340,
+				md: 768,
+				lg: 1024,
+				}
+		 	}
+		 	)
 
 
- app.component('DataTable',DataTable)
- app.component('Column',Column)
+			app.component('DataTable',DataTable)
+			app.component('Column',Column)
 
-	app.component('Dialog', Dialog);
-	app.component('Toast', Toast);
-	app.component('Button', Button);
-	app.component('InputText', InputText);
-	app.component('Card',Card)
-				app.component('Sidebar',Sidebar)
-	app.directive('ripple', Ripple);
+			app.component('Dialog', Dialog);
+			app.component('Toast', Toast);
+			app.component('Button', Button);
+			app.component('InputText', InputText);
+			app.component('Card',Card)
+			app.component('Sidebar',Sidebar)
+			app.directive('ripple', Ripple);
+
+	 	}
+	 	)
 
 
-	client_singleton.Instance.vue =	app.mount('#app')
 
 
-		if (!my_store.logged_in){
+
+		/*if (!my_store.logged_in){
 	 await 	router.push('/auth/login')
 		}
-
+*/
 
 
 }

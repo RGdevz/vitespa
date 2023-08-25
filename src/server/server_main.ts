@@ -1,7 +1,7 @@
 import express, {Express} from 'express'
 const fallback = require('connect-history-api-fallback');
 import * as path from "path";
-import {SocketServer} from "./SocketServer";
+
 import {checkcreds, createjwt, jwtmiddleware} from "./helpers";
 
 
@@ -9,6 +9,7 @@ import cookieParser from 'cookie-parser'
 
 
 import * as fs from "fs-extra";
+import {TRPCServer} from "./trpc";
 
 
 export class appInstance{
@@ -35,11 +36,12 @@ export class appInstance{
    const root = path.resolve('dist')
 
 
-
-
    const app = express()
 
-   
+    app.use(cookieParser())
+
+   new TRPCServer(app).init()
+
 
    const serverMode = process.env.server_mode as 'dev'|'prod'
 
@@ -47,17 +49,18 @@ export class appInstance{
 
    console.log(`server mode ${serverMode}`)
 
-   app.use(cookieParser())
    app.use(express.json())
 
-    app.use((req, res, next) => {
 
-    res.header('cache-control','no-cache')
 
-    next()
+   app.use((req, res, next) => {
 
-    }
-    )
+   res.header('cache-control','no-cache')
+
+   next()
+
+   }
+   )
 
 
 
@@ -127,8 +130,6 @@ export class appInstance{
 
    server.on('listening',()=>{
    console.log(`http://localhost:5000`)
-
-    SocketServer.StartServer(server)
 
    if (on_done){
    on_done()

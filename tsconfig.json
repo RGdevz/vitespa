@@ -1,13 +1,12 @@
 {
   "compilerOptions": {
     "module": "esnext",
+    "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "target": "esnext",
-    "strictFunctionTypes": true,
-    "outDir": "server_dist",
+    "outDir": "dist",
     "strict": false,
     "moduleResolution": "node"
-
   },
 
 

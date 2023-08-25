@@ -8,18 +8,14 @@
   <div class="mygrid" >
 
 
-   <div @click="$router.push('/terminal')" class="p-card border-round shadow-3 " style="display: flex;max-width: 450px; height: 300px; width: 300px;cursor: pointer">
-  <div style="margin: auto">
-   <h4>Terminal</h4>
-  </div>
-   </div>
-
 
    <div @click="$router.push('/tests')" class="p-card border-round shadow-3 " style="max-width: 450px;height: 300px; width: 300px;cursor: pointer; display: flex">
     <div style="margin: auto">
     <h4>Card</h4>
     </div>
    </div>
+
+   <button @click="test">test</button>
 
 
   </div>
@@ -45,10 +41,27 @@
 <script lang="ts">
 
 
+import {client_singleton} from "../client_singleton";
+
 export default {
+
+ methods:{
+
+
+ async test(){
+  try{
+  const res = await client_singleton.Instance.client.wtf.query({name:'wow'})
+  alert(res)
+  }catch (e) {
+   alert(e.message)
+  }
+  }
+
+ },
 
 mounted() {
 
+ /*client_singleton.Instance.ok_toast('hi')*/
 
 }
 

@@ -14,6 +14,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@trpc-limiter/memory": "^0.0.3",
+    "@trpc/server": "^10.38.0",
     "@types/express": "^4.17.14",
     "@types/jsonwebtoken": "^8.5.9",
     "@types/node": "^18.11.5",
@@ -29,13 +31,14 @@
     "fs-extra": "^11.1.0",
     "jiti": "^1.16.0",
     "jsonwebtoken": "^8.5.1",
-    "node-pty-prebuilt-multiarch": "^0.10.1-pre.5",
     "pinia": "^2.0.23",
     "primeflex": "^3.2.1",
     "primeicons": "^6.0.1",
     "primevue": "^3.18.0",
+    "request-ip": "^3.3.0",
     "socket.io": "^4.5.3",
     "socket.io-client": "^4.5.3",
+    "superjson": "^1.13.1",
     "threads": "^1.7.0",
     "typescript": "^4.8.3",
     "vite": "^3.1.3",
@@ -44,9 +47,11 @@
     "vue-router": "^4.1.5",
     "vue-screen": "^2.1.0-beta.1",
     "xterm": "^5.0.0",
-    "xterm-addon-webgl": "^0.13.0"
+    "xterm-addon-webgl": "^0.13.0",
+    "zod": "^3.22.2"
   },
   "devDependencies": {
+    "@trpc/client": "^10.38.0",
     "@types/cookie-parser": "^1.4.3",
     "@types/fs-extra": "^9.0.13",
     "@vitejs/plugin-vue": "^3.1.0",

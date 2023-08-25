@@ -58,12 +58,7 @@ export default {
   },
 
 
-
-
   methods:{
-
-
-
 
 
    login(){
