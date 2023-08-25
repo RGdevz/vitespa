@@ -38,24 +38,25 @@ export class client_singleton {
 
 
 
-	public subscribeEmitter<key extends keyof emitter_types>(thekey:key, cb:(any)=>void){
 
-	this.mitter.on(thekey,cb)
+	public subscribeEmitter<key extends keyof emitter_types>(thekey:key, cb:(...args:Parameters<emitter_types[key]>)=>void){
+
+		this.mitter.on(thekey,cb)
 
 	}
 
 
 	public unsubscribeEmitter<key extends keyof emitter_types>(thekey:key){
 
-	this.mitter.off(thekey)
+		this.mitter.off(thekey)
 
 	}
 
 
 
-	public useEmitter<key extends keyof emitter_types>(thekey:key, ...args){
+	public useEmitter<key extends keyof emitter_types>(thekey:key, ...args:Parameters<emitter_types[key]>){
 
-	this.mitter.emit(thekey,...args)
+		this.mitter.emit(thekey,...args)
 
 	}
 
