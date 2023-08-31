@@ -19,11 +19,10 @@ async function start(){
 
 
 
-
-async function load_vue(win){
+ async function load_vue(win){
 
  const jiti = require('jiti')(__filename,{cache:'.cache'})
- await require('./tools/route_generatetor').generate_Routes().catch(x=>console.error(x))
+
  const vue_app = jiti('./src/server/server_main.ts')
 
  try{
@@ -61,10 +60,10 @@ async function load_vue(win){
  async function createWindow () {
  // Create the browser window.
  const win = new BrowserWindow({
-  width: 1400,
-  height: 920,
-  webPreferences: {
-  nodeIntegration: true
+ width: 1400,
+ height: 920,
+ webPreferences: {
+ nodeIntegration: true
  }
  }
  )

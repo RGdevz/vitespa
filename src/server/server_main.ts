@@ -32,7 +32,6 @@ export class appInstance{
 
 
 
-
    const root = path.resolve('dist')
 
 
@@ -49,8 +48,8 @@ export class appInstance{
 
    console.log(`server mode ${serverMode}`)
 
-   app.use(express.json())
 
+   app.use(express.json())
 
 
    app.use((req, res, next) => {
@@ -95,27 +94,22 @@ export class appInstance{
 
 
 
-    app.get('/auth/check',jwtmiddleware,(req, res) => {
-    return res.send('ok')
-    }
-    )
-
-
+    app.get('/auth/check',jwtmiddleware,(req, res) => res.send('ok'))
 
 
    if (serverMode == 'dev'){
+
    const vite = await this.create_vite_middleware()
    app.use(vite)
    } else {
 
 
-
     const check = await fs.pathExists(path.resolve('dist'))
 
     if (!check) {
-     throw new Error('please run build first')
-
+    throw new Error('please run build first')
     }
+
     /*app.use(express.static(root))*/
     app.use(fallback())
     app.use(express.static(root))
@@ -137,9 +131,6 @@ export class appInstance{
 
    }
    )
-
-
-
 
 
 
