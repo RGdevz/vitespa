@@ -13,9 +13,7 @@ import InputText from 'primevue/inputtext';
 import Card from 'primevue/card';
 import {useMyStore} from './store'
 import DataTable from 'primevue/DataTable'
-import error_page from './pages/__refresh_needed__.vue'
-import page_404 from './pages/__404__.vue'
-import root from './pages/__root__.vue'
+import root from './other/__root__.vue'
 import Ripple from 'primevue/ripple';
 import {client_singleton} from "./client_singleton";
 import VueScreen from 'vue-screen'
@@ -26,6 +24,8 @@ import Sidebar from 'primevue/sidebar';
 
 // @ts-ignore
 import {default as generatedRoutes} from '../../tools/generated_routes'
+import {createRoutes} from "./helpers";
+
 
 
   declare module '@vue/runtime-core' {
@@ -33,37 +33,6 @@ import {default as generatedRoutes} from '../../tools/generated_routes'
 		$my_store: ReturnType<typeof useMyStore>
 	 }
   }
-
-
-
-
-
-	  	function useRoutes(){
-		 	const final_routes =	generatedRoutes.map(x=>{
-
-
-
-				const wrap = ()=> x.component().catch((e)=>{
-					console.log(e)
-					return error_page
-				}
-				)
-
-
-				return{
-
-					path:x.path,name:x.name,component:wrap
-
-	 			}
-		  	}
-		  	)
-
-
-			//@ts-ignore
-			final_routes.push({ path: '/:pathMatch(.*)*', name: 'NotFound', component: page_404 })
-			return final_routes
-		 }
-
 
 
 
@@ -87,7 +56,9 @@ import {default as generatedRoutes} from '../../tools/generated_routes'
    export async function client_init(){
 
 
+
 	  await createVueApp(async app=>{
+
 
 
 			const pinia = createPinia()
@@ -98,21 +69,22 @@ import {default as generatedRoutes} from '../../tools/generated_routes'
 
 			app.config.globalProperties.$my_store = my_store
 
-			try{
+
+		/*	try{
 			await axios.get('/auth/check');
 			my_store.login()
 			}catch (e) {
 			console.log('not logged in')
-			}
+			}*/
+
 
 
 
 			const router = createRouter({
 				history: createWebHistory(),
-				routes: useRoutes()
+				routes: createRoutes()
 			}
 			)
-
 
 
 
@@ -157,7 +129,6 @@ import {default as generatedRoutes} from '../../tools/generated_routes'
 
 	 	}
 	 	)
-
 
 
 

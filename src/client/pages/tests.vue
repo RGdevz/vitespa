@@ -1,3 +1,11 @@
+<route>
+{
+"meta": {
+"layout": "main2"
+}
+}
+</route>
+
 <template>
 
  <div>
@@ -5,8 +13,10 @@
  </div>
 </template>
 
-<script>
+<script lang="ts">
 export default {
+
+
 
 }
 </script>

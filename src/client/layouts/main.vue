@@ -47,6 +47,7 @@
 import {client_singleton} from "../client_singleton";
 import axios from "axios";
 import My_sidebar from "../components/my_sidebar.vue";
+import {useVue} from "../helpers";
 
 export default {
  components: {My_sidebar},
@@ -63,13 +64,15 @@ export default {
 
    login(){
 
+    useVue((vue)=>{
+    vue.$router.push('/auth/login')
+    }
+    )
 
-  client_singleton.Instance.vue.$router.push('/auth/login')
 
+    }
 
-  }
-
-  },
+    },
 
 
   }

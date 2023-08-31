@@ -27,7 +27,7 @@ export class client_singleton {
 	// @ts-ignore
 	public client : ReturnType<typeof createTRPCProxyClient<AppRouter>>
 
-	public vue:ComponentPublicInstance
+	protected vue:ComponentPublicInstance
 
 	private static _instance: client_singleton;
 

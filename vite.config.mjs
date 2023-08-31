@@ -1,15 +1,27 @@
 
 import vue from '@vitejs/plugin-vue'
-/*import { viteCommonjs } from '@originjs/vite-plugin-commonjs'*/
+import Pages from 'vite-plugin-pages'
+import {join} from 'path'
+
 export default  {
 
 
 
  plugins: [
 
- vue(),
-  /*  viteCommonjs()*/
- ],
+  vue(),
+
+  Pages({
+   dirs: join(__dirname,'src','client','pages'),
+   importMode:'async',
+   exclude:['error_page.vue'],
+   onRoutesGenerated:(routes)=>{
+
+   console.log('routes',routes.length)
+  }
+  }
+  )
+  ],
 
 
  resolve: { alias: { 'vue': 'vue/dist/vue.esm-bundler.js' }},

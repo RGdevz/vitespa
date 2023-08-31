@@ -42,6 +42,7 @@
 
 
 import {client_singleton} from "../client_singleton";
+import {useVue} from "../helpers";
 
 export default {
 
@@ -60,6 +61,7 @@ export default {
  },
 
 mounted() {
+
 
  /*client_singleton.Instance.ok_toast('hi')*/
 

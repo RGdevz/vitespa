@@ -1,15 +1,15 @@
 <template>
 
-<layout/>
+ <router-view/>
 
 </template>
 
 <script>
-import layout from "./__layout__.vue";
+import layout from "../layouts/main.vue";
 import {client_singleton} from "../client_singleton";
 export default {
 
- mounted() {
+ created() {
  client_singleton.Instance.vue ??= this
  },
 
