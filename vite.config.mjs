@@ -42,7 +42,7 @@ export default  {
    esmExternals: true
   },
 */
-  target: 'esnext',
+  target: 'chrome58',
 
  },
 
