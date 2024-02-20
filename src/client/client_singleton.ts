@@ -1,7 +1,6 @@
-import {io, Socket} from 'socket.io-client'
+
 import {ComponentPublicInstance} from "vue";
 import EventEmitter from "eventemitter3";
-import {Server} from "socket.io";
 import {useVue} from "./helpers";
 import {createTRPCProxyClient, httpBatchLink} from "@trpc/client";
 import {AppRouter} from "../server/trpc";
@@ -9,14 +8,11 @@ import superjson from "superjson";
 
 
 
-interface emitter_types {
+interface emitterTypes {
 
 send_pty_data:(data:string)=>void
 
 }
-
-
-type FirstArgument<T> = T extends (arg1: infer U, ...args: any[]) => any ? U : any;
 
 
 
@@ -39,14 +35,14 @@ export class client_singleton {
 
 
 
-	public subscribeEmitter<key extends keyof emitter_types>(thekey:key, cb:(...args:Parameters<emitter_types[key]>)=>void){
+	public subscribeEmitter<key extends keyof emitterTypes>(thekey:key, cb:(...args:Parameters<emitterTypes[key]>)=>void){
 
 		this.mitter.on(thekey,cb)
 
 	}
 
 
-	public unsubscribeEmitter<key extends keyof emitter_types>(thekey:key){
+	public unsubscribeEmitter<key extends keyof emitterTypes>(thekey:key){
 
 		this.mitter.off(thekey)
 
@@ -54,7 +50,7 @@ export class client_singleton {
 
 
 
-	public useEmitter<key extends keyof emitter_types>(thekey:key, ...args:Parameters<emitter_types[key]>){
+	public useEmitter<key extends keyof emitterTypes>(thekey:key, ...args:Parameters<emitterTypes[key]>){
 
 		this.mitter.emit(thekey,...args)
 
@@ -91,7 +87,6 @@ export class client_singleton {
 
 		return this.client
  	}
-
 
 
 

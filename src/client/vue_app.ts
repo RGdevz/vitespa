@@ -18,7 +18,6 @@ import Ripple from 'primevue/ripple';
 import {client_singleton} from "./client_singleton";
 import VueScreen from 'vue-screen'
 import {createPinia} from "pinia";
-import axios from "axios";
 import Column from "primevue/column";
 import Sidebar from 'primevue/sidebar';
 

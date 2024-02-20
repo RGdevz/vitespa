@@ -26,7 +26,7 @@ export class appInstance{
 
 
 
-   public async start(on_done?:()=>void){
+   public async start(){
 
 /*   process.on('unhandledRejection', up => { console.error(up) })*/
 
@@ -125,9 +125,7 @@ export class appInstance{
    server.on('listening',()=>{
    console.log(`http://localhost:5000`)
 
-   if (on_done){
-   on_done()
-   }
+
 
    }
    )

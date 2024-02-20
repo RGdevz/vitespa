@@ -3,13 +3,10 @@
   "version": "1.0.0",
   "description": "",
   "type": "commonjs",
-  "main": "start_electron.js",
   "scripts": {
     "dev": "cross-env server_mode=dev node start.js",
     "start": "cross-env server_mode=prod node start.js",
-    "build": "node tools/build.js",
-    "electron": " electron start_electron.js --unhandled-rejections=strict",
-    "electron-build": "electron-builder"
+    "build": "node tools/build.js"
   },
   "author": "",
   "license": "ISC",
@@ -36,34 +33,21 @@
     "primeicons": "^6.0.1",
     "primevue": "^3.18.0",
     "request-ip": "^3.3.0",
-    "socket.io": "^4.5.3",
-    "socket.io-client": "^4.5.3",
     "superjson": "^1.13.1",
     "threads": "^1.7.0",
     "typescript": "^4.8.3",
     "vite": "^3.1.3",
     "vite-plugin-pages": "^0.31.0",
     "vue": "^3.2.39",
-    "vue-route-generator": "^1.0.0",
     "vue-router": "^4.1.5",
     "vue-screen": "^2.1.0-beta.1",
-    "xterm": "^5.0.0",
-    "xterm-addon-webgl": "^0.13.0",
     "zod": "^3.22.2"
   },
   "devDependencies": {
     "@trpc/client": "^10.38.0",
     "@types/cookie-parser": "^1.4.3",
     "@types/fs-extra": "^9.0.13",
-    "@vitejs/plugin-vue": "^3.1.0",
-    "electron": "^22.0.0",
-    "electron-builder": "^23.6.0",
-    "electron-rebuild": "^3.2.9"
-  },
-  "build": {
-    "appId": "com.example.app",
-    "directories": {
-      "output": "electron-dist"
-    }
+    "@vitejs/plugin-vue": "^3.1.0"
   }
+
 }
